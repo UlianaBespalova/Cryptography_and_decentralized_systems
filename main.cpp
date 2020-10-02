@@ -64,7 +64,10 @@ int main(int argc, char *argv[]) {
                 param = (int)strtol(argv[i+1], &pEnd, 10);
                 i++;
             }
-            else cout << "Неверный ключ - " << argv[i] << endl;
+            else {
+                cout << "Неверный ключ - " << argv[i] << endl;
+                return 0;
+            }
         }
     }
     if (N<=0) {
