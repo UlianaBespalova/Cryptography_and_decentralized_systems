@@ -52,19 +52,19 @@ int main(int argc, char *argv[]) {
     for (int i=1; i<argc; i++) {
         char *pEnd;
         if (i+1!=argc) {
-            if (strcmp(argv[i], "-f")==0) {
+            if (strcmp(argv[i], "--file")==0 || strcmp(argv[i], "-f")==0) {
                 fileName = argv[i+1];
                 i++;
             }
-            else if (strcmp(argv[i], "-n")==0) {
+            else if (strcmp(argv[i], "--numbilets")==0 || strcmp(argv[i], "-n")==0) {
                 N = (int)strtol(argv[i+1], &pEnd, 10);
                 i++;
             }
-            else if (strcmp(argv[i], "-p")==0) {
+            else if (strcmp(argv[i], "--parameter")==0 || strcmp(argv[i], "-p")==0) {
                 param = (int)strtol(argv[i+1], &pEnd, 10);
                 i++;
             }
-            else cout << "Неверный ключ - " << i << endl;
+            else cout << "Неверный ключ - " << argv[i] << endl;
         }
     }
     if (N<=0) {
