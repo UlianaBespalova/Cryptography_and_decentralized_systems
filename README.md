@@ -24,5 +24,10 @@ make
 ```
 
 ## Пример выполнения программы
-![example1]()
-![example2]()
+
+Результаты успешной аутентифика́ции в разные моменты времени:
+![example1](screenshots/ok1.png)
+![example2](screenshots/ok2.png)
+
+Результат в случае неудачи:
+![example3](screenshots/error.png)
