@@ -25,9 +25,13 @@ make
 
 ## Пример выполнения программы
 
-Результаты успешной аутентифика́ции в разные моменты времени:
-![example1](screenshots/ok1.png)
-![example2](screenshots/ok2.png)
+Результаты успешной аутентифика́ции в разные моменты времени:  
+(1)  
+![example1](screenshots/ok1.png)  
+  
+(2)    
+![example2](screenshots/ok2.png)  
+  
 
 Результат в случае неудачи:
 ![example3](screenshots/error.png)
