@@ -33,6 +33,7 @@ make
 (2)    
 ![example2](screenshots/ok2.png)  
   
-
+  
+  
 Результат в случае неудачи:  
 ![example3](screenshots/error.png)
