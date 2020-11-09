@@ -45,11 +45,11 @@ make
 Результаты разделения одного и того же секрета в разные моменты запуска приложения:
   
 1)  
-![example1](screenshots/split1.png)  
+![example1](screenshots/split(2).png)  
 -----------------------------------------------------------   
   
 2)  
-![example2](screenshots/split2.png)  
+![example2](screenshots/split(1.png)  
   
 
   
@@ -59,8 +59,8 @@ make
 Восстановление исходного секрета по сгенерированным ключам (в количесвте Т и более):
   
 1)  
-![example3](screenshots/recover1.png)  
+![example3](screenshots/recover(1).png)  
 -----------------------------------------------------------   
   
 2)  
-![example4](screenshots/recover2.png)  
+![example4](screenshots/recover(2).png)  
