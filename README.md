@@ -34,7 +34,6 @@ User story:
 
 ```
 go run uns-server.go [параметры]
-
 ```
 
 Вариант 2 (с предварительной сборкой)
@@ -42,7 +41,6 @@ go run uns-server.go [параметры]
 ```
 go build uns-server.go
 ./uns-server [параметры]
-
 ```
 
 
