@@ -12,6 +12,7 @@ import (
 	"fmt"
 	shell "github.com/ipfs/go-ipfs-api"
 	"io/ioutil"
+	"math/big"
 	"os"
 	"sort"
 	"strings"
@@ -22,41 +23,48 @@ var ipfsUrl = "localhost:5001"
 var txtDB = "IPNS.txt"
 
 var (
-	requestFlag = flag.String("request-type", "", "record-set|record-get|sign")
+	requestFlag = flag.String("request-type", "", "record-set|record-get|generate-keys|sign")
 	uidFlag = flag.String("uid", "", "user identity: <username>:<pubkey>")
 	ipfsFlag = flag.String("ipfs", "", "ipfs-link")
 	signFlag = flag.String("sign", "", "signature for new ipfs link")
 	nameFlag = flag.String("username", "", "username")
+	privkeyFlag = flag.String("privkey", "", "user private key")
 )
 
-func generateKeys () (*ecdsa.PrivateKey, error) { //сгенерировать новую пару ключей
+func generateKeys () { //сгенерировать новую пару ключей
 
 	keyPair := new(ecdsa.PrivateKey)
 	keyPair, err := ecdsa.GenerateKey(pubkeyCurve, rand.Reader)
 	if err != nil {
-		return nil, err
-	}
-	return keyPair, nil
-}
-
-func signMessage(userName string, msg string) { //сгенерировать подпись для заданной строки новой парой ключей
-
-	keyPair, err := generateKeys()
-	if err != nil {
-		fmt.Println("Error: failed to generate keys")
+		fmt.Println("Error: failed to generate keys", err)
 		return
 	}
 	publicKey := elliptic.MarshalCompressed(pubkeyCurve, keyPair.PublicKey.X, keyPair.PublicKey.Y)
 
+	fmt.Printf("Private key = %x\n", keyPair.D)
+	fmt.Printf("Public key = %x\n", publicKey)
+	return
+}
+
+func signMessage(msg string, privateKeyStr string) { //сгенерировать подпись для заданной строки
+
+	privateKey := new(big.Int)
+	privateKey, parseOk := privateKey.SetString(privateKeyStr, 16)
+	if !parseOk {
+		fmt.Println("Error: incorrect private key")
+		return
+	}
+	privateKeyStruct := new(ecdsa.PrivateKey)
+	privateKeyStruct.Curve = pubkeyCurve
+	privateKeyStruct.D = privateKey
+
 	signHash := sha256.Sum256([]byte(msg))
-	sign, serr := ecdsa.SignASN1(rand.Reader, keyPair, signHash[:])
+	sign, serr := ecdsa.SignASN1(rand.Reader, privateKeyStruct, signHash[:])
 	if serr != nil {
 		fmt.Println("Error: failed to generate signature")
 		return
 	}
 	signature := hex.EncodeToString(sign)
-
-	fmt.Printf("UserID = %s:%x \n", userName, publicKey) //uid пользователя с новым pubkey
 	fmt.Println("Signature =", signature)
 }
 
@@ -120,8 +128,8 @@ func updateIPNSFile (fileName string, userName string, newEntry string) (string,
 			return "", fileErr
 		}
 		dbStringsLen := len(dbStrings)
-		i := sort.Search(dbStringsLen, func(i int) bool { return (dbStrings[i]>=userName+":")})
-		if i<dbStringsLen && strings.HasPrefix(dbStrings[i], userName+":") {
+		i := sort.Search(dbStringsLen, func(i int) bool { return (dbStrings[i]>=userName)})
+		if i<dbStringsLen && strings.HasPrefix(dbStrings[i], userName) {
 			if dbStrings[i]==newEntry { //если старая запись найдена и совпадает с новой, оставляем как есть
 				return "", errors.New("Entry already exists")
 			}
@@ -169,7 +177,6 @@ func setRecord (uid string, ipfs string, sign string) {
 		fmt.Println("Error: incorrect uid")
 		return
 	}
-	userName := words[0]
 	publicKey := words[1]
 
 	verified, err := verifySignature(ipfs, publicKey, sign) //проверка подписи
@@ -183,7 +190,7 @@ func setRecord (uid string, ipfs string, sign string) {
 	}
 
 	newEntry := uid+"|"+ipfs //обновление записи в файле
-	change, fileErr := updateIPNSFile(txtDB, userName, newEntry)
+	change, fileErr := updateIPNSFile(txtDB, uid, newEntry)
 	if fileErr!=nil {
 		fmt.Println(fileErr)
 		return
@@ -228,8 +235,12 @@ func main() {
 		getRecord(*uidFlag)
 		return
 	}
-	if *requestFlag=="sign" && (*nameFlag!="" && *ipfsFlag!="") {
-		signMessage(*nameFlag, *ipfsFlag)
+	if *requestFlag=="generate-keys" {
+		generateKeys()
+		return
+	}
+	if *requestFlag=="sign" && (*ipfsFlag!="" && *privkeyFlag!="") {
+		signMessage(*ipfsFlag, *privkeyFlag)
 		return
 	}
 	fmt.Println("Flags error!")
