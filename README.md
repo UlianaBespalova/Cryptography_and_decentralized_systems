@@ -35,8 +35,8 @@ npm start
 
 ## Скриншоты
   
-![screen_form](screenshots/screen_form.png)  
+![screen_form](screenshots/screen-form.png)  
   
-![screen_form](screenshots/screen_success.png)    
+![screen_form](screenshots/screen-success.png)    
     
 -----------------------------------------------------------  
