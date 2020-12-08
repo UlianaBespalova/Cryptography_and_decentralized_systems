@@ -1,0 +1,106 @@
+body {
+	background: url("img/fon.png") no-repeat;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	font-family: 'Roboto', sans-serif;
+	font-size: 110%;
+	font-weight: bolder;
+}
+
+.page {
+	margin-top: 90px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.page__title {
+  	font-family: 'Barlow Condensed', sans-serif;
+	font-size: 200%;
+	font-weight: 500;
+}
+
+.page__accountInfo {
+	margin: 10px 0 10px 0;
+}
+
+.page__sendTx_form {
+	flex-direction: column;
+	justify-content: left;
+	min-width: 480px;
+}
+
+.form_line {
+	margin: 20px 0 20px 0;
+}
+
+button {
+	border: none;
+}
+button:hover {
+	cursor: pointer;
+}
+
+.page__sendTx_button {
+	font-family: 'Barlow Condensed', sans-serif;
+	font-size: 150%;
+	font-weight: 400;
+	height: 50px;
+	width: 150px;
+	border: solid 2px black;
+	border-radius: 5px;
+	background-color: white;
+	color: black;
+	padding: 0 0 2px 0;
+}
+
+.page__sendTx_button-colorful {
+	background-color: #0f0f57;
+	color: white;
+	border: white;
+	height: 40px;
+	width: 130px;
+	font-size: 110%;
+}
+
+.form {
+	float: left;
+}
+
+.page__TxInfo {
+	color: #0f0f57;
+	font-family: 'Barlow Condensed', sans-serif;
+	font-weight: 400;
+	font-size: 120%;
+	margin-top: 50px;
+}
+
+.form__item {
+	margin-top: 10px;
+	text-align: right;
+	line-height: 40px;
+}
+
+.form__item__label {
+	width: 20px;
+	float: left;
+	margin: 0 30px 0 10px;
+}
+
+.err_msg {
+	position: absolute;
+	margin-left: 500px;
+}
+
+.form__item__input {
+	height: 30px;
+	width: 400px;
+	font-family: 'Roboto', sans-serif;
+	color: black;
+}
+
+.form__button {
+	margin-top: 20px;
+}
