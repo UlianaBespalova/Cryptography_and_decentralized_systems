@@ -40,7 +40,7 @@ contract Msig {
 
     constructor(address[] memory owners, uint threshold) public {
 
-        m_numOwners = owners.length+1; //первый учатсник
+        m_numOwners = owners.length+1; //первый участник
         m_owners[1] = uint(msg.sender);
 
         m_ownerIndex[uint(msg.sender)] = 1;
